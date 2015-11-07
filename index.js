@@ -31,6 +31,7 @@ module.exports = Delegator
 
 function Delegator(opts) {
     opts = opts || {}
+    var additionalEvents = opts.listenTo || [];
     var document = opts.document || globalDocument
 
     var cacheKey = document[cacheTokenKey]
@@ -47,9 +48,10 @@ function Delegator(opts) {
             new DOMDelegator(document)
     }
 
+    var events = commonEvents.concat(additionalEvents);
     if (opts.defaultEvents !== false) {
-        for (var i = 0; i < commonEvents.length; i++) {
-            delegator.listenTo(commonEvents[i])
+        for (var i = 0; i < events.length; i++) {
+            delegator.listenTo(events[i])
         }
     }
 
